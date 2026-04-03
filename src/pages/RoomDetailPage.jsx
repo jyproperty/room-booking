@@ -8,7 +8,9 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import PeopleIcon from '@mui/icons-material/People'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
+import LockIcon from '@mui/icons-material/Lock'
 import { supabase } from '../lib/supabase'
+import { useAuth } from '../contexts/AuthContext'
 
 const TIME_SLOTS = [
   '09:00', '10:00', '11:00', '12:00', '13:00', '14:00',
@@ -18,6 +20,7 @@ const TIME_SLOTS = [
 function RoomDetailPage() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const { user } = useAuth()
 
   const [room, setRoom] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -48,6 +51,10 @@ function RoomDetailPage() {
   const totalPrice = hours * (room?.price_per_hour || 0)
 
   async function handleBooking() {
+    if (!user) {
+      navigate('/login')
+      return
+    }
     if (!date || !startTime || !endTime || hours <= 0) {
       setBookingResult({ type: 'error', message: '날짜와 시간을 올바르게 선택해주세요.' })
       return
@@ -240,6 +247,11 @@ function RoomDetailPage() {
                 </Box>
               )}
 
+              {!user && (
+                <Alert severity="info" icon={<LockIcon />} sx={{ mb: 2 }}>
+                  예약하려면 <strong>로그인</strong>이 필요해요
+                </Alert>
+              )}
               <Button
                 fullWidth
                 variant="contained"
@@ -248,7 +260,9 @@ function RoomDetailPage() {
                 disabled={bookingLoading}
                 sx={{ borderRadius: 3, py: 1.5, fontSize: '1rem', fontWeight: 700 }}
               >
-                {bookingLoading ? <CircularProgress size={24} color="inherit" /> : '예약하기'}
+                {bookingLoading
+                  ? <CircularProgress size={24} color="inherit" />
+                  : user ? '예약하기' : '로그인하고 예약하기'}
               </Button>
             </Paper>
           </Box>
