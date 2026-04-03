@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import {
-  Box, Container, Typography, Grid2 as Grid, TextField, InputAdornment,
+  Box, Container, Typography, TextField, InputAdornment,
   ToggleButton, ToggleButtonGroup, Skeleton, Alert
 } from '@mui/material'
+import Grid from '@mui/material/Grid2'
 import SearchIcon from '@mui/icons-material/Search'
 import useRooms from '../hooks/useRooms'
 import RoomCard from '../components/RoomCard'
