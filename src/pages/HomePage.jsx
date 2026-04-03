@@ -3,7 +3,6 @@ import {
   Box, Container, Typography, TextField, InputAdornment,
   ToggleButton, ToggleButtonGroup, Skeleton, Alert
 } from '@mui/material'
-import Grid from '@mui/material/Grid2'
 import SearchIcon from '@mui/icons-material/Search'
 import useRooms from '../hooks/useRooms'
 import RoomCard from '../components/RoomCard'
@@ -103,15 +102,15 @@ function HomePage() {
         )}
 
         {loading ? (
-          <Grid container spacing={3}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
             {[...Array(6)].map((_, i) => (
-              <Grid key={i} size={{ xs: 12, sm: 6, md: 4 }}>
+              <Box key={i} sx={{ flex: '1 1 280px', maxWidth: '360px' }}>
                 <Skeleton variant="rectangular" height={200} sx={{ borderRadius: 3 }} />
                 <Skeleton width="60%" sx={{ mt: 1 }} />
                 <Skeleton width="40%" />
-              </Grid>
+              </Box>
             ))}
-          </Grid>
+          </Box>
         ) : filteredRooms.length === 0 ? (
           <Box sx={{ textAlign: 'center', py: 10 }}>
             <Typography variant="h3" color="text.secondary">
@@ -122,13 +121,21 @@ function HomePage() {
             </Typography>
           </Box>
         ) : (
-          <Grid container spacing={3}>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: {
+                xs: '1fr',
+                sm: '1fr 1fr',
+                md: '1fr 1fr 1fr',
+              },
+              gap: 3,
+            }}
+          >
             {filteredRooms.map((room) => (
-              <Grid key={room.id} size={{ xs: 12, sm: 6, md: 4 }}>
-                <RoomCard room={room} />
-              </Grid>
+              <RoomCard key={room.id} room={room} />
             ))}
-          </Grid>
+          </Box>
         )}
       </Container>
     </Box>
