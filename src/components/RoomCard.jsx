@@ -1,10 +1,11 @@
 import { Card, CardMedia, CardContent, Typography, Box, Chip } from '@mui/material'
 import PeopleIcon from '@mui/icons-material/People'
 import { useNavigate } from 'react-router-dom'
+import { getThumbnail } from '../utils/thumbnail'
 
 function RoomCard({ room }) {
   const navigate = useNavigate()
-  const thumbnail = room.thumbnail_url || room.room_images?.[0]?.image_url || 'https://placehold.co/400x300?text=회의실'
+  const thumbnail = getThumbnail(room, 600, 400)
 
   return (
     <Card

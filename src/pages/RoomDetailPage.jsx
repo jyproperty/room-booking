@@ -11,6 +11,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import LockIcon from '@mui/icons-material/Lock'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
+import { getThumbnail } from '../utils/thumbnail'
 
 const TIME_SLOTS = [
   '09:00', '10:00', '11:00', '12:00', '13:00', '14:00',
@@ -101,7 +102,7 @@ function RoomDetailPage() {
     )
   }
 
-  const thumbnail = room.thumbnail_url || 'https://placehold.co/800x400?text=회의실'
+  const thumbnail = getThumbnail(room, 1200, 600)
 
   return (
     <Box>
